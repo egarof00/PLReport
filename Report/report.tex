@@ -63,7 +63,7 @@
   \newtheorem{remark}[theorem]{Remark}
 
 \title{CPSC-354 Report}
-\author{Your Name  \\ Chapman University}
+\author{Emma Garofalo  \\ Chapman University}
 
 \date{\today} 
 
@@ -72,57 +72,84 @@
 \maketitle
 
 \begin{abstract}
-(Delete and Replace:) You can safely delete and replace the explanations in this file as they will remain available on the course website. For example, you should replace this abstract with your own. The abstract should be a short summary of the report. It should be written in a way that makes it possible to understand the purpose of the report without reading it.  
+This document outlines what has been learned week by week through this class. For now, it only contains the information learned for week one.
 \end{abstract}
 
 \setcounter{tocdepth}{3}
 \tableofcontents
 
 \section{Introduction}\label{intro}
-
-(Delete and Replace): This report will document your learning throughout the course. It will be a collection of your notes, homework solutions, and critical reflections on the content of the course. Something in between a semester-long take home exam and your own lecture notes.\footnote{One purpose of giving the report the form of lecture notes is that self-explanation is a technique proven to help with learning, see Chapter 6 of Craig Barton, How I Wish I'd Taught Maths, and references therein. In fact, the report can lead you from self-explanation (which is what you do for the weekly deadline) to explaining to others (which is what you do for the final submission). Another purpose is to help those of you who want to go on to graduate school to develop some basic writing skills. A report that you could proudly add to your application to graduate school (or a job application in industry) would give you full points.}
-
-To modify this template you need to modify the source \texttt{report.tex} which is available in the course repo. For guidance on how to do this read both the source and the pdf of \texttt{latex-example.tex} which is also available in the repo. Also check out the usual resources (Google, Stackoverflow, LLM, etc). It was never as easy as now to learn a new programming lanugage (which, btw, \LaTeX{} is).
-
-For writing \LaTeX{} with VSCode use the \href{https://marketplace.visualstudio.com/items?itemName=James-Yu.latex-workshop}{LaTeX Workshop} extension. 
-
-There will be deadlines during the semester, graded mostly for completeness. That means that you will get the points if you submit in time and are on the right track, independently of whether the solutions are technically correct. You will have the opportunity to revise your work for the final submission of the full report.
-
-The full report is due at the end of the finals week. It will be graded according to the following guidelines.
-
-Grading  guidelines (see also below):
-\begin{itemize}
-\item Is typesetting and layout professional? 
-\item Is the technical content, in particular the homework, correct?
-\item Did the student find interesting references~\cite{bla} and cites them throughout the report?
-\item Do the notes reflect understanding and critical thinking?
-\item Does the report contain material related to but going beyond what we do in class?
-\item Are the questions interesting?
-\end{itemize}
-
-Do not change the template (fontsize, width of margin, spacing of lines, etc) without asking your first.
-
+Welcome to my class report! As the class progresses, I will add my learning
+from each week. For now, it only has week one. 
 \section{Week by Week}\label{homework}
 
 \subsection{Week 1}
-
-(Delete:) Week 1 aligns with the first week of the semester. 
-
-If you think that the writing flows better if you merge the sections ``Notes'' and ``Homework'', you can do so, but keep the heading for ``Comments and Questions''.
-
 \subsubsection*{Notes}
-
-(Delete and Replace): You should use this section to write your own notes and showcase your own understanding.\footnote{Here are some hints. Why is this material included in the course? What are the big questions that motivate the study of this subject? How does this material connect to broader themes or issues in the field? What practical or theoretical problems can be addressed through an understanding of these topics? A great way to test whether you understand the material is to make your own exercises and answer them.} Material related to but going beyond what we do in class is welcome.
-
-Feel free to use your favourite LLM to help you build a mental landscape of the subject. Think of LLMs as an extension of Wikipedia and Google, a tool you should be using as introduction to any subject. If you didnt check with Google, Wikipedia and GPT, you are not ready to write your own notes. On the other hand, while using these resources is necessary, you need to always exercise your own critical thinking and you are always responsible for what you write. 
-
+This week we discussed the foundation of what the class is about.
+The main idea was that this class is largely about the intersection
+of math and programming, beginning with revisiting the principles we learned
+in discrete mathematics. We also learned about LaTeX, which we will be using throughout 
+the semester to edit documents like this one. The general idea of the week was setting all of us 
+students up for what to expect throughout the semester.
 \subsubsection*{Homework}
 
-(Delete and Replace:) This section will typically contain Homework problems. You should write up your solutions in \LaTeX. You can use the \texttt{lstlisting} environment to include code. You can use \href{https://excalidraw.com/}{Excalidraw} for drawings. Pictures from handwritten drawings are acceptable if the drawings are of high quality (pictures from rough notes and quick sketches are likely to loose you points). 
+The reading that we had to cover for homework discussed the MUI problem, which helps us
+break down what a formal system is, and how these attributes can be seen in mathematics like 
+discrete math.
 
-Make sure that this section can be read without referring back to the homework question. Introduce the question/problem and repeat it in your own words. Make sure to typset your homework in a way that makes it clear what  the question and what the answer is. Present it as a worked example would be presented in a textbook. 
+We also had to complete the tutorial world of the natural number game. 
+Here are the solutions for levels 5-8.
 
-Also explain what you learn from the homework. Each homework was carefully drafted to bring home a particular teaching point. Make sure to explain what this point is. Relate it to the big questions mentioned above. 
+\subsubsection*{Level 5}
+Goal: a+(b+0)+(c+0)=a+b+c
+
+Solution:
+\begin{lstlisting}
+rw[add_zero]
+rfl
+\end{lstlisting}
+\subsubsection*{Level 6}
+Goal: a+(b+0)+(c+0)=a+b+c
+
+Solution:
+\begin{lstlisting}
+rw[add_zero c]
+rw[add_zero]
+rfl
+\end{lstlisting}
+\subsubsection*{Level 7}
+Goal: succ n = n + 1
+
+Solution:
+\begin{lstlisting}
+rw[one_eq_succ_zero]
+rw[add_succ]
+rw[add_zero]
+rfl
+\end{lstlisting}
+\subsubsection*{Level 8}
+Goal: 2 + 2 = 4
+
+Solution:
+\begin{lstlisting}
+nth_rewrite 2[two_eq_succ_one]
+rw[one_eq_succ_zero]
+rw[four_eq_succ_three]
+rw[three_eq_succ_two]
+nth_rewrite 2[two_eq_succ_one]
+rw[one_eq_succ_zero]
+rw[two_eq_succ_one]
+rw[one_eq_succ_zero]
+rw[add_succ]
+rw[add_succ]
+rw[add_zero]
+rfl
+\end{lstlisting}
+
+I learned a lot from this homework. It basically acted as a refresher for discrete mathematics, and 
+how what seems like such a simple solution is much more complicated than you think it is. It also shows 
+the various ways that you can derive the same solutions.
+
 
 %In case you want to draw automata in Latex, you can use the tikz %package. Here is an example of a simple automaton:
 %
@@ -142,36 +169,31 @@ Also explain what you learn from the homework. Each homework was carefully draft
 
 \subsubsection*{Comments and Questions}
 
-(Delete and Replace:) Here you should write your own critical reflection on the content of the week. If you can surprise me with something I have not seen before, you are on the right track.
+This week provided me with a good refresher of the discrete mathematics class that I took a while ago. It brought to my attention how much
+there is a crossover between math and code, and I am so excited to explore that in this class.
 
-%I expect you to read the lecture notes. 
-
-Ask at least one \textbf{interesting question}\footnote{It is important to learn to ask \emph{interesting} questions. There is no precise way of defining what is meant by interesting. You can only learn this by doing. An interesting question comes typically in two parts. Part 1 (one or two sentences) sets the scene. Part 2 (one or two sentences) asks the question. A good question strikes the right balance between being specific and technical on the one hand and open ended on the other hand. A question that can be answered with yes/no is not an interesing question.} on the lecture notes. Also post the question on the Discord channel so that everybody can see and discuss the questions.
-
-\subsection{Week 2}
-
-(Delete:) Week 2 (and all the other weeks) should follow the same pattern as Week 1. Even if there is a week without homework, notes and comments (see above) are still expected.
+I always wonder who decided to start defining these mathematical relations? They have evolved so far and it is amazing to see the foundation that exists in discrete and how complicated it really is to have built up that foundation to all of the mathematical relations that we analyze now. I wonder if math will continue to get more and more complicated from the foundation that is laid by discrete.
 
 \subsection{\ldots}
 
 \ldots
 
-\section{Lessons from the Assignments}
+% \section{Lessons from the Assignments}
 
-(Delete and Replace): Write three pages about your individual contributions to the project.
+% (Delete and Replace): Write three pages about your individual contributions to the project.
 
-On 3 pages you describe lessons you learned from the project. Be as technical and detailed as possible. Particularly valuable are \emph{interesting} examples where you connect concrete technical details with \emph{interesting} general observations or where the theory discussed in the lectures helped with the design or implementation of the project.
+% On 3 pages you describe lessons you learned from the project. Be as technical and detailed as possible. Particularly valuable are \emph{interesting} examples where you connect concrete technical details with \emph{interesting} general observations or where the theory discussed in the lectures helped with the design or implementation of the project.
 
-Write this section during the semester. This is approximately a quarter of apage per week and the material should come from the work you do anyway. Just keep your eyes open for interesting lessons.
+% Write this section during the semester. This is approximately a quarter of apage per week and the material should come from the work you do anyway. Just keep your eyes open for interesting lessons.
 
-Make sure that you use \LaTeX{} to structure your writing (eg by using subsections).
+% Make sure that you use \LaTeX{} to structure your writing (eg by using subsections).
 
-\section{Conclusion}\label{conclusion}
+% \section{Conclusion}\label{conclusion}
 
-(Delete and Replace): (approx 400 words) A critical reflection on the content of the course. Step back from the technical details. How does the course fit into the wider world of software engineering? What did you find most interesting or useful? What improvements would you suggest?
+% (Delete and Replace): (approx 400 words) A critical reflection on the content of the course. Step back from the technical details. How does the course fit into the wider world of software engineering? What did you find most interesting or useful? What improvements would you suggest?
 
-\begin{thebibliography}{99}
-\bibitem[BLA]{bla} Author, \href{https://en.wikipedia.org/wiki/LaTeX}{Title}, Publisher, Year.
-\end{thebibliography}
+% \begin{thebibliography}{99}
+% \bibitem[BLA]{bla} Author, \href{https://en.wikipedia.org/wiki/LaTeX}{Title}, Publisher, Year.
+% \end{thebibliography}
 
 \end{document}
