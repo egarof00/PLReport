@@ -193,6 +193,139 @@ My question for the week relates to the foundation of mathematics, and where it 
 which shows us why even the simplest mathematic proofs are valid. And it makes me wonder how mathematics has evolved so much since then. We have
 such calculated math that has all built off of these proofs. Seeing how much math has evolved since then, does that mean that math will continue to
 evolve in complexity forever? As we create new technologies and understand our world better, will more complicated relationships continue to be found?
+
+\subsection{Week 2: Recursion}
+\subsubsection*{Notes}
+The main topic of this week was recursion, and how it can be visualized with the "Tower of Hanoi" exercise.
+We learned that the definition of recursion is nesting, and variations on nesting. Recursive definitions are
+defined in simpler terms of itself, but they never lead to infinite regress or paradox. The "Tower of Hanoi" showed
+us this well by demonstrating that once you find a base case (a simpler way to break the problem down), then you can
+use that and the successor of that to solve recursively. We considered the problem from the bottom disk up, and observed
+how both a stack machine and a rewriting machine can find the efficient recursive solutions.
+
+\subsubsection*{Homework}
+The reading that we had for homework was about the "Little Harmonic Labyrinth". This story was a complex example of how
+recursion is nesting, and variations on nesting. Another real life example that this reading provided was postponing the 
+completion of a task in favor of completing a simpler task, which I think is something that humans naturally do all the time.
+
+We also completed the addition world of the Natural Number Game, and some solutions are outlined below.
+\subsubsection*{Level 1}
+Goal: 0 + n = n
+
+Solution:
+\begin{lstlisting}
+induction n with d hd
+rw[add_zero]
+rfl
+
+rw[add_succ]
+rw[hd]
+rfl
+\end{lstlisting}
+\subsubsection*{Level 2}
+Goal: succ a + b = succ (a + b)
+
+Solution:
+\begin{lstlisting}
+induction b with n hn
+rw[add_zero]
+rw[add_zero]
+rfl
+
+rw[add_succ]
+rw[hn]
+rw[add_succ]
+rfl
+\end{lstlisting}
+\subsubsection*{Level 3}
+Goal: a + b = b + a
+
+Solution:
+\begin{lstlisting}
+induction b with d hd
+rw[add_zero]
+rw[zero_add]
+rfl
+
+rw[add_succ]
+rw[hd]
+rw[succ_add]
+rfl
+\end{lstlisting}
+\subsubsection*{Level 4}
+Goal: a + b + c = a + (b + c)
+
+Solution:
+\begin{lstlisting}
+induction c with d hd
+rw[add_zero]
+rw[add_zero]
+rfl
+
+rw[add_succ]
+rw[hd]
+rw[add_succ]
+rw[add_succ]
+rfl
+\end{lstlisting}
+\subsubsection*{How is this lean proof related to mathematics proofs?:}
+This lean proof begins with induction on natural numbers, performed on the varuable c.
+This mathematics proof involves breaking the problem into a base case, showing that the 
+property holds for the smallest number, usually being 0. Then the inductive step is
+performed, which assumes that the property holds for the successor of the arbitrary natural number. 
+It uses the inductive step performed before.
+
+Then the identity property for addition is performed, showing that a + 0 = a.
+Once the base case is proven, the successor must be proven as well.
+The property of addition for successors simplifies the goal so that the inductive hypothesis can 
+be substituted. With another simplification from the addition of successors, both sides of the equation
+are shown to be equivalent.
+\subsubsection*{Level 5}
+Goal: a + b + c = a + c + b
+
+Solution:
+\begin{lstlisting}
+induction c with d hd
+rw[add_zero]
+rw[add_zero]
+rfl
+
+rw[add_succ]
+rw[add_succ]
+rw[hd]
+rw[succ_add]
+rfl
+\end{lstlisting}
+This homework was all about recursion. It refreshed my knowledge on how to apply induction
+to reach the goal.
+
+%In case you want to draw automata in Latex, you can use the tikz %package. Here is an example of a simple automaton:
+%
+%\begin{tikzpicture}[shorten >=1pt,node distance=2cm,on grid,auto] 
+%  \node[state] (q_1)   {$q_1$}; 
+%  \node[state] (q_2) [above right=of q_1] {$q_2$}; 
+%  \node[state] (q_3) [below right=of q_2] {$q_3$}; 
+%   \path[->] 
+%   (q_1) edge  node {0} (q_2)
+%         edge  node [swap] {1} (q_3)
+%   (q_2) edge  node  {1} (q_3)
+%         edge [loop above] node {0} ()
+%   (q_3) edge [loop below] node {0,1} ();
+%\end{tikzpicture}
+%
+%By the way, GPT-4 is quite good at outputting tikz code.
+
+\subsubsection*{Comments and Questions}
+The "Tower of Hanoi" problem reminded me the give and take when it comes to finding 
+recursive solutions. Oftentimes, a recursive solution is a more efficient one, but the time
+it takes to think up this solution and the possible complexity of it needs to be taken into consideration.
+
+My question of the week relates to this. Is there a key way to always identify that the most efficient solution to
+a particular problem is recursion? I feel like when a problem becomes more complicated, I struggle to identify if 
+it can be solved recursively, and because of this, I try multiple other solutions before and waste a lot of time
+coming to a recursive solution.
+
+
 \subsection{\ldots}
 
 \ldots
