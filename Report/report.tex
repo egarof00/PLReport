@@ -91,11 +91,16 @@ of math and programming, beginning with revisiting the principles we learned
 in discrete mathematics. We also learned about LaTeX, which we will be using throughout 
 the semester to edit documents like this one. The general idea of the week was setting all of us 
 students up for what to expect throughout the semester.
+
+We also covered the topics of Formal Systems, which are explained in more detail in the below
+section. And how to determine the relations between a Lean proof and a Math proof.
 \subsubsection*{Homework}
 
 The reading that we had to cover for homework discussed the MUI problem, which helps us
 break down what a formal system is, and how these attributes can be seen in mathematics like 
-discrete math.
+discrete math. A formal system carries the requirement of formality, which states that you
+must not do anything outside of the set rules. Theorems, axioms, rules of production, and the
+decision procedure are all key parts of a formal system.
 
 We also had to complete the tutorial world of the natural number game. 
 Here are the solutions for levels 5-8.
@@ -127,6 +132,18 @@ rw[add_succ]
 rw[add_zero]
 rfl
 \end{lstlisting}
+\subsubsection*{How is this lean proof related to mathematics proofs?:}
+This Lean solution demonstrates the definition of Natural Numbers. 
+Natural numbers are defined by two principles:
+1. "There is a special natural number, called zero, denoted by 0."
+2. "For any natural number n, there is a unique next natural number, called
+the successor of n."
+
+The first step completed in the Lean proof uses rule 2 by breaking the number
+1 on the right side of the equation into the successor of 0.
+The next line uses the property of addition for successors. Showing that n + succ(m) = succ(n+m)
+The additive identity property is then used to simplify the equation so that both sides are now
+equal to each other, proving the validity of the statement that the succ n = n + 1
 \subsubsection*{Level 8}
 Goal: 2 + 2 = 4
 
@@ -172,8 +189,10 @@ the various ways that you can derive the same solutions.
 This week provided me with a good refresher of the discrete mathematics class that I took a while ago. It brought to my attention how much
 there is a crossover between math and code, and I am so excited to explore that in this class.
 
-I always wonder who decided to start defining these mathematical relations? They have evolved so far and it is amazing to see the foundation that exists in discrete and how complicated it really is to have built up that foundation to all of the mathematical relations that we analyze now. I wonder if math will continue to get more and more complicated from the foundation that is laid by discrete.
-
+My question for the week relates to the foundation of mathematics, and where it has all evolved from there. We refreshed on discrete math,
+which shows us why even the simplest mathematic proofs are valid. And it makes me wonder how mathematics has evolved so much since then. We have
+such calculated math that has all built off of these proofs. Seeing how much math has evolved since then, does that mean that math will continue to
+evolve in complexity forever? As we create new technologies and understand our world better, will more complicated relationships continue to be found?
 \subsection{\ldots}
 
 \ldots
