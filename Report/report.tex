@@ -21,6 +21,8 @@
     
 \usepackage{listings}
 
+\graphicspath{ {./images/} }
+
 \definecolor{dkgreen}{rgb}{0,0.6,0}
 \definecolor{gray}{rgb}{0.5,0.5,0.5}
 \definecolor{mauve}{rgb}{0.58,0,0.82}
@@ -133,17 +135,17 @@ rw[add_zero]
 rfl
 \end{lstlisting}
 \subsubsection*{How is this lean proof related to mathematics proofs?:}
-This Lean solution demonstrates the definition of Natural Numbers. 
-Natural numbers are defined by two principles:
+The definition of Natural Numbers. 
 1. "There is a special natural number, called zero, denoted by 0."
 2. "For any natural number n, there is a unique next natural number, called
 the successor of n."
 
-The first step completed in the Lean proof uses rule 2 by breaking the number
-1 on the right side of the equation into the successor of 0.
-The next line uses the property of addition for successors. Showing that n + succ(m) = succ(n+m)
-The additive identity property is then used to simplify the equation so that both sides are now
-equal to each other, proving the validity of the statement that the succ n = n + 1
+\begin{align}
+succ n &= n + 1         &   \\
+succ n &= n + succ(0)   &    &\text{definition of natural numbers} \\
+succ n &= succ(n + 0)   &    &\text{prop. of + for successors} \\
+succ n &= succ n        &    &\text{additive identity property} \\
+\end{align}
 \subsubsection*{Level 8}
 Goal: 2 + 2 = 4
 
@@ -167,22 +169,6 @@ I learned a lot from this homework. It basically acted as a refresher for discre
 how what seems like such a simple solution is much more complicated than you think it is. It also shows 
 the various ways that you can derive the same solutions.
 
-
-%In case you want to draw automata in Latex, you can use the tikz %package. Here is an example of a simple automaton:
-%
-%\begin{tikzpicture}[shorten >=1pt,node distance=2cm,on grid,auto] 
-%  \node[state] (q_1)   {$q_1$}; 
-%  \node[state] (q_2) [above right=of q_1] {$q_2$}; 
-%  \node[state] (q_3) [below right=of q_2] {$q_3$}; 
-%   \path[->] 
-%   (q_1) edge  node {0} (q_2)
-%         edge  node [swap] {1} (q_3)
-%   (q_2) edge  node  {1} (q_3)
-%         edge [loop above] node {0} ()
-%   (q_3) edge [loop below] node {0,1} ();
-%\end{tikzpicture}
-%
-%By the way, GPT-4 is quite good at outputting tikz code.
 
 \subsubsection*{Comments and Questions}
 
@@ -269,11 +255,15 @@ rw[add_succ]
 rfl
 \end{lstlisting}
 \subsubsection*{How is this lean proof related to mathematics proofs?:}
-This lean proof begins with induction on natural numbers, performed on the varuable c.
-This mathematics proof involves breaking the problem into a base case, showing that the 
-property holds for the smallest number, usually being 0. Then the inductive step is
-performed, which assumes that the property holds for the successor of the arbitrary natural number. 
-It uses the inductive step performed before.
+\begin{align}
+  a + b + c = a + (b+c)   &      &\text{proof by induction on c} \\
+  a + b + 0 = a + (b+0)   &      &\text{base case} \\
+  a + b = a + b        &      &\text{additive identity} \\
+  succ(a + b + d) = a + (b+succd)&    &\text{inductive step} \\
+  succ(a + (b + d)) = a + (b+succd)&      &\text{substitution with inductive hypothesis} \\
+  succ(a + (b + d)) = succ(a + (b+d))&      &\text{prop. of + for successors} \\
+\end{align}
+
 
 Then the identity property for addition is performed, showing that a + 0 = a.
 Once the base case is proven, the successor must be proven as well.
@@ -299,22 +289,6 @@ rfl
 This homework was all about recursion. It refreshed my knowledge on how to apply induction
 to reach the goal.
 
-%In case you want to draw automata in Latex, you can use the tikz %package. Here is an example of a simple automaton:
-%
-%\begin{tikzpicture}[shorten >=1pt,node distance=2cm,on grid,auto] 
-%  \node[state] (q_1)   {$q_1$}; 
-%  \node[state] (q_2) [above right=of q_1] {$q_2$}; 
-%  \node[state] (q_3) [below right=of q_2] {$q_3$}; 
-%   \path[->] 
-%   (q_1) edge  node {0} (q_2)
-%         edge  node [swap] {1} (q_3)
-%   (q_2) edge  node  {1} (q_3)
-%         edge [loop above] node {0} ()
-%   (q_3) edge [loop below] node {0,1} ();
-%\end{tikzpicture}
-%
-%By the way, GPT-4 is quite good at outputting tikz code.
-
 \subsubsection*{Comments and Questions}
 The "Tower of Hanoi" problem reminded me the give and take when it comes to finding 
 recursive solutions. Oftentimes, a recursive solution is a more efficient one, but the time
@@ -324,6 +298,102 @@ My question of the week relates to this. Is there a key way to always identify t
 a particular problem is recursion? I feel like when a problem becomes more complicated, I struggle to identify if 
 it can be solved recursively, and because of this, I try multiple other solutions before and waste a lot of time
 coming to a recursive solution.
+
+\subsection{Week 3: Programming with LLMs}
+\subsubsection*{Notes}
+LLMs for literature reviews 
+
+Start discussing creating a calculator in python
+\subsubsection*{Homework}
+
+The homework for this week had us focus on how to use LLMs effectively. We had to have
+a conversation with an LLM of our choice, and use it to create a literature review
+on a topic of our choosing related to programming languages. 
+
+\href{https://github.com/egarof00/CPSC354-HW3}{My literature review}:
+I covered the topic of programming languages in video game design. The README is linked in the title above. 
+I also wrote a more detailed summary in my discord posting \href{https://discord.com/channels/1277862531226013750/1278164700076707892/1285026014057070632}{here},
+under the name MagicTurtle. These documents follow the general trajectory that programming languages have taken over time, and how
+they have been used and improved. It also covers the general strengths of the common programming languages used today, and why
+they are better for particular types of games than others.
+
+\subsection*{Other Literature Reviews That I Found Interesting:}
+\href{https://github.com/keira-ryan/question/blob/main/README.md}{Programming Languages and Art}
+
+Author: Keira Ryan 
+As someone who is not as familiar with art, this literature review was very interesting to me.
+I think that it took a very good stance on the hot topic of AI art and whether or not
+it is "real". It explains that AI can be used as a tool in the art world, and a way to 
+experiment with new processes. 
+
+\href{https://github.com/cjoo03/HW3/blob/main/README.md}{Exploring Garbage Collection Across Programming Languages}
+
+Author: Chris Joo
+I found this interesting because it is an aspect of programming that is often overlooked.
+It is an extremely important part of programming, but when it is taken care of, I often
+do not think twice about how it is accomplished. 
+
+
+\subsubsection*{Comments and Questions}
+
+This week provided me with a good refresher of the discrete mathematics class that I took a while ago. It brought to my attention how much
+there is a crossover between math and code, and I am so excited to explore that in this class.
+
+My question for the week relates to the foundation of mathematics, and where it has all evolved from there. We refreshed on discrete math,
+which shows us why even the simplest mathematic proofs are valid. And it makes me wonder how mathematics has evolved so much since then. We have
+such calculated math that has all built off of these proofs. Seeing how much math has evolved since then, does that mean that math will continue to
+evolve in complexity forever? As we create new technologies and understand our world better, will more complicated relationships continue to be found?
+
+
+\subsection{Week 4: Parsing and Context-Free Grammars}
+\subsubsection*{Notes}
+Concrete syntax vs. abstract syntax
+
+Parsing
+
+Context-Free Grammar
+
+Caculator with parser generator
+\subsubsection*{Homework}
+
+We did various different assignments for homework this week. The first is shown below.
+Using this context-free grammar
+\begin{lstlisting}
+  Exp -> Exp '+' Exp1 
+  Exp1 -> Exp1 '*' Exp2              
+  Exp2 -> Integer            
+  Exp2 -> '(' Exp ')'  
+  Exp -> Exp1             
+  Exp1 -> Exp2 
+\end{lstlisting}
+write out derivation/parse trees for each string:
+\begin{enumerate}
+  \item 2+1
+  \item 1+2*3
+  \item 1+(2*3)
+  \item (1+2)*3
+  \item 1+2*3+4*5+6
+\end{enumerate}
+\includegraphics[scale=0.15]{IMG_1712}
+\includegraphics[scale=0.15]{IMG_1713}
+
+We also worked on creating a calculator in python that completes basic math 
+operations (parentheses, exponents, multiplication, subtraction, and addition). 
+We did this our own way, but we discussed that a great way to complete this project would be 
+by creating a parser generator in a software like Lark. 
+
+The reading this week went into detail on the topic of parsing and context free grammars. These context 
+free grammars are basically sets of rules that are created to define a language. They must be grammatically 
+defined by four components: a finite set of symbols, finite set of variables, a start symbol, and a finite set of
+productions. From these, you can perform either recursive inferences or derivations. 
+\subsubsection*{Comments and Questions}
+This week focused a lot on breaking down what defines a context free grammar and all of the very complicated
+details that make up a CFG. The topic puts a lot of focus on what is allowed in a context free grammar, so
+I wanted to instead focus on the exclusions from these languages and how they are identified. When a CFG is 
+used for a programming language syntax, how is it able to give meaningful error messages? Is it able to 
+identify what part of the language that a string would not be valid for and then give an error message in
+relation to that? I am just unsure overall of how meaningful error messages are given when a CFG is used
+because it is something I have never really thought about until now. 
 
 
 \subsection{\ldots}
