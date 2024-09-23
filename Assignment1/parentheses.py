@@ -1,3 +1,4 @@
+import sys
 # checks if parentheses are "balanced"
 
 def check_parentheses(expression):
@@ -17,8 +18,8 @@ def check_parentheses(expression):
     # if count is 0, parentheses match, otherwise they don't
     return parentheses_count == 0
 
-
-expr = input("Enter a mathematical expression: ")
+expr = sys.argv[1]
+# expr = input("Enter a mathematical expression: ")
 if check_parentheses(expr):
     print("yes")
 else:

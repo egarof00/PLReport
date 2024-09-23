@@ -1,3 +1,4 @@
+import sys
 # split string into a list of tokens
 def tokenize(expression):
     # Tokenizes the input string expression into a list of numbers and operators
@@ -83,8 +84,9 @@ def evaluate_expression(tokens):
 
     return values[0]  # The result will be the only element in values
 
-print("Enter an expression to be calculated: ")
-expression = input()
+# print("Enter an expression to be calculated: ")
+# expression = input()
+expression = sys.argv[1]
 tokens = tokenize(expression)
 result = evaluate_expression(tokens)
 print(result)
