@@ -1,5 +1,6 @@
 from lark import Lark, Transformer
 import sys
+import math
 
 # Load the grammar from grammarl.lark
 with open("grammar.lark", "r") as grammar_file:
@@ -28,6 +29,9 @@ class CalcTransformer(Transformer):
     
     def exponent(self, items):
         return ('exponent', items[0], items[1])
+    
+    def logarithm(self, items):
+        return ('logarithm', items[0], items[1])
 
 # Function to evaluate the AST
 def evaluate(ast):
@@ -41,6 +45,9 @@ def evaluate(ast):
         return (-1 * evaluate(ast[1])) 
     elif ast[0] == 'num':
         return ast[1]
+    elif ast[0] == 'logarithm':
+        # FIXME: this is wrong
+        return math.log(evaluate(ast[1]), evaluate(ast[2]))
     elif ast[0] == 'exponent':
         return evaluate(ast[1]) ** evaluate(ast[2])
     else:
@@ -57,3 +64,8 @@ if __name__ == "__main__":
     #print(ast)
     result = evaluate(ast)
     print(result)
+
+# doesnt do this
+# python  calculator_cfg.py "2^3^2"
+# says it equals 64 when it should be 512
+# needs right to left precedence
