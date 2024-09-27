@@ -64,8 +64,3 @@ if __name__ == "__main__":
     #print(ast)
     result = evaluate(ast)
     print(result)
-
-# doesnt do this
-# python  calculator_cfg.py "2^3^2"
-# says it equals 64 when it should be 512
-# needs right to left precedence
