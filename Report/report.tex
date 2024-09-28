@@ -395,6 +395,124 @@ identify what part of the language that a string would not be valid for and then
 relation to that? I am just unsure overall of how meaningful error messages are given when a CFG is used
 because it is something I have never really thought about until now. 
 
+\subsection{Week 5: Propositions as Types, Dependent Types}
+\subsubsection*{Notes}
+This week we discussed a LARL (look-ahead, left to right, rightmost derivation parser). This kind of parser
+moves all the way to the right when performing a derivation in  order to perform the rightmost derivation first.
+In its derivation, it can only perform two actions: shift or reduce. Sometimes this creates shift-reduce conflicts.
+
+\subsubsection*{Homework}
+For homework we worked on programming assigment 2, which started with the base of a python calculator script
+and lark parsing grammar. Our goal was to add operations to this base while being sure that the order of 
+operations was respected, even for long mathematical expressions. For each added expression, we went through the 
+steps of adding the operation to the grammar (in the correct order), adding that operation to the python transformer
+function, then adding it to the evaluator. Each new operation needed to be tested both on its own and with other
+operations in order to ensure that they functioned correctly and respected the order of operations.
+
+We also completed the tutorial world of the Lean Logic Game. This showed how to solve problems in a language
+that operates only with variables and functions. No data types or memory exist. The solutions to the tutorial 
+world are shown below:
+\subsubsection*{Level 1}
+\begin{lstlisting}
+(P : Prop)(todo_list : P) : P := by
+\end{lstlisting}
+Solution:
+\begin{lstlisting}
+  exact todo_list
+\end{lstlisting}
+\subsubsection*{Level 2}
+\begin{lstlisting}
+(P S : Prop)(p: P)(s : S) : P /\ S := by
+\end{lstlisting}
+Solution:
+\begin{lstlisting}
+  exact <p,s>
+\end{lstlisting}
+\subsubsection*{Level 3}
+\begin{lstlisting}
+(A I O U : Prop)(a : A)(i : I)(o : O)(u : U) : (A /\ I) /\ O /\ U := by
+\end{lstlisting}
+Solution:
+\begin{lstlisting}
+  exact <<a,i> , o, u>
+\end{lstlisting}
+\subsubsection*{Level 4}
+\begin{lstlisting}
+(P S : Prop)(vm: P /\ S) : P := by
+\end{lstlisting}
+Solution:
+\begin{lstlisting}
+  exact vm.left : p
+\end{lstlisting}
+\subsubsection*{Level 5}
+\begin{lstlisting}
+(P Q : Prop)(h: P /\ Q) : Q := by
+\end{lstlisting}
+Solution:
+\begin{lstlisting}
+  exact h.right
+\end{lstlisting}
+\subsubsection*{Level 6}
+\begin{lstlisting}
+(A I O U : Prop)(h1 : A /\ I)(h2 : O /\ U) : A /\ U := by
+\end{lstlisting}
+Solution:
+\begin{lstlisting}
+  exact <h1.left, h2.right>
+\end{lstlisting}
+\subsubsection*{Level 7}
+\begin{lstlisting}
+(C L : Prop)(h: (L /\ (((L /\ C) /\ L) /\ L /\ L /\ L)) /\ (L /\ L) /\ L) : C := by
+\end{lstlisting}
+Solution:
+\begin{lstlisting}
+  have h1 := h.left
+  have h2 := h.right
+  have h4 := h1.right
+  have h5 := h4.left
+  have h6 := h5.left
+  exact h6.right
+\end{lstlisting}
+\subsubsection*{Level 8}
+\begin{lstlisting}
+(A C I O P S U : Prop)(h: ((P /\ S) /\ A) /\ -I /\ (C /\ -O) /\ -U) : A /\ C /\ P /\ S := by
+\end{lstlisting}
+Solution:
+\begin{lstlisting}
+  have h1 := h.left
+  have h2 := h1.left
+  have h3 := h1.right
+  have h4 := h.right
+  have h5 := h4.right
+  have h6 := h5.left
+  have h7 := h6.left
+  exact <h3, h7, h2>
+\end{lstlisting}
+\subsubsection*{How is this lean proof related to mathematics proofs?:}
+\begin{align}
+  have h1 := h.left   &      &\text{isolate  (P AND S) AND A} \\
+  have h2 := h1.left   &      &\text{isolate P AND S} \\
+  have h3 := h1.right        &      &\text{isolate A} \\
+  have h4 := h.right&    &\text{isolate I AND (C AND ¬O) AND ¬U} \\
+  have h5 := h4.right&      &\text{isolate (C AND ¬O) AND ¬U} \\
+  have h6 := h5.left&      &\text{isolate C AND ¬O} \\
+  have h7 := h6.left&      &\text{isloate C} \\
+  exact <h3, h7, h2>&      &\text{and intro} \\
+\end{align}
+
+The goal of this problem is to break down the hypothesis into smaller chunks that are
+already known in order to prove that it is true. Once we get to the digestable values
+of P AND S, C, and A. We are then able to show that if these are each true individually,
+then they can be combined to also all be true.
+
+\subsubsection*{Comments and Questions}
+This week we went into parsing trees a bit more in our lecture, and one of the 
+things that we talked about were LARLs, or look ahead/rightmost derivation trees.
+It is one of the kinds of predictive parsing, but it made me wonder what situations
+this type of parsing is actually used, and how it could possibly be flexible in any way. 
+Does relying on rightmost derivation limit it's effeciency to very particular problems?
+Or is their a way to make it more flexible so that it can handle left-recursive 
+grammars just as well?
 
 \subsection{\ldots}
 
