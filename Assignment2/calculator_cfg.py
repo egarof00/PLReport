@@ -46,7 +46,6 @@ def evaluate(ast):
     elif ast[0] == 'num':
         return ast[1]
     elif ast[0] == 'logarithm':
-        # FIXME: this is wrong
         return math.log(evaluate(ast[1]), evaluate(ast[2]))
     elif ast[0] == 'exponent':
         return evaluate(ast[1]) ** evaluate(ast[2])
