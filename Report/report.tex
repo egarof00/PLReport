@@ -516,6 +516,113 @@ grammars just as well?
 
 \subsection{\ldots}
 
+\subsection{Week 6: Higher Order Functions}
+\subsubsection*{Notes}
+The topics of this week mostly included currying and lambda calculus. In class, we discussed that currying is like
+creating a chain of functions in order to solve a particular problem. This is done because in the scenarios 
+that it is used, each function only takes in one argument. 
+
+We also focused a lot of lambda calculus, which as we previously discussed, is made up of only vaiables 
+and functions. In order to dive deeper into the topic, we broke it down into syntax and semantics. 
+The syntax of lambda caclulus is what I have below. The bottom two being abstraction and application, respectively.
+\begin{lstlisting}
+  exp -> var
+  exp -> 'lambda' var '.' exp
+  exp -> exp exp 
+\end{lstlisting}
+
+The operational semantics of lambda calculus, otherwise known as how programs will run, was broken down 
+when observing the proof of an identity function. We stressed that each function is only able to take
+one input, and observing parenthesis properly while using substitution with capture avoiding is necessary
+in lambda calculus.
+\subsubsection*{Homework}
+This week's homework was the "Party Snacks" level of the lean logic world, focusing on lambda calculus. 
+We pushed ourselves to solve each problem in a single line. The solutions to problems 1-9 are shown below:
+('lambda' and 'maps to' symbols are represented in text because of latex restrictions)
+\subsubsection*{Level 1}
+\begin{lstlisting}
+(P C: Prop)(p: P)(bakery_service : P -> C) : C := by
+\end{lstlisting}
+Solution:
+\begin{lstlisting}
+  exact bakery_service p
+\end{lstlisting}
+\subsubsection*{Level 2}
+\begin{lstlisting}
+  (C: Prop) : C -> C
+\end{lstlisting}
+Solution:
+\begin{lstlisting}
+  exact 'lambda' c 'maps to' c
+\end{lstlisting}
+\subsubsection*{Level 3}
+\begin{lstlisting}
+(I S: Prop) : I /\ S -> S /\ I
+\end{lstlisting}
+Solution:
+\begin{lstlisting}
+  exact 'lambda' <I, S> 'maps to' <S, I>
+\end{lstlisting}
+\subsubsection*{Level 4}
+\begin{lstlisting}
+(C A S: Prop) (h1 : C -> A) (h2 : A -> S) : C -> S
+\end{lstlisting}
+Solution:
+\begin{lstlisting}
+  exact 'lambda' c 'maps to' h2 (h1 c)
+\end{lstlisting}
+\subsubsection*{Level 5}
+\begin{lstlisting}
+(P Q R S T U: Prop) (p : P) (h1 : P -> Q) (h2 : Q -> R) (h3 : Q -> T) (h4 : S -> T) (h5 : T -> U) : U
+\end{lstlisting}
+Solution:
+\begin{lstlisting}
+  exact h5 (h3 (h1 p))
+\end{lstlisting}
+\subsubsection*{Level 6}
+\begin{lstlisting}
+(C D S: Prop) (h : C /\ D -> S) : C -> D -> S
+\end{lstlisting}
+Solution:
+\begin{lstlisting}
+  exact 'lambda' c d 'maps to' h <c, d>
+\end{lstlisting}
+\subsubsection*{Level 7}
+\begin{lstlisting}
+(C D S: Prop) (h : C -> D -> S) : C /\ D -> S
+\end{lstlisting}
+Solution:
+\begin{lstlisting}
+  exact 'lambda' <c, d> 'maps to'  h c d
+\end{lstlisting}
+\subsubsection*{Level 8}
+\begin{lstlisting}
+(C D S : Prop) (h : (S -> C) /\ (S -> D)) : S -> C /\ D
+\end{lstlisting}
+Solution:
+\begin{lstlisting}
+  exact 'lambda' s 'maps to'  <h.left s, h.right s> 
+\end{lstlisting}
+\subsubsection*{Level 9}
+\begin{lstlisting}
+(R S : Prop) : R -> (S -> R) /\ (-S -> R)
+\end{lstlisting}
+Solution:
+\begin{lstlisting}
+  exact 'lambda' r 'maps to' <'lambda' s 'maps to' r, 'lambda' ns 'maps to' r>
+\end{lstlisting}
+
+
+\subsubsection*{Comments and Questions}
+One of the topics generally mentioned this week was the Curry-Howard correspondence.
+It demonstrates a connection between formal systems of logic and programming languages,
+stating that a propositions correspond to types, proofs correspond to programs, and proof reductions
+correspond to program evaluation. It is able to show the direct connections between mathematics 
+and programming. My question for the week is how can this understanding improve our approach to
+programming?
+
+\subsection{\ldots}
+
 \ldots
 
 % \section{Lessons from the Assignments}
