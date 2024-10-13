@@ -621,6 +621,52 @@ correspond to program evaluation. It is able to show the direct connections betw
 and programming. My question for the week is how can this understanding improve our approach to
 programming?
 
+\subsection{Week 7}
+\subsubsection*{Notes}
+This week we covered why lambda calculus is turing complete. We wanted to show how to represent
+numbers, operations, conditionals, memory, and loops. We also observed recursion in lambda calculus.
+
+\subsubsection*{Homework}
+For homework, we had to practice capture avoiding substitution. We were tasked with this problem:
+
+1. Reduce the following lambda term:
+\begin{lstlisting}
+  ((\m. \n. m n) (\f. \x. f (f x))) (\f. \x. f (f (f x))) 
+\end{lstlisting}
+Here is my step by step solution to this problem, all using beta reduction:
+\begin{lstlisting}
+  ((\m. \n. m n) (\f. \x. f (f x))) (\f. \x. f (f (f x))) -> left-most application
+  (\n. (\f. \x. f (f x)) n) (\f. \x. f (f (f x))) -> left-most application
+  (\f. \x. f (f x)) (\f. \x. f (f (f x))) -> left-most application
+  \x. (\f. \x. f (f (f x))) ((\f. \x. f (f (f x))) x)) -> left-most application
+  \x. (\f. \x. f (f (f x))) (\x. x (x (x x)))) -> right-most application
+  \x. (\f. \x. f (f (f x))) ((x (x x))) -> right-most application
+  \f. \x. f (f (f ((x (x x)))) -> right-most application
+  \x. (f (f ((x (x x))) -> most reduced form because there is no value given to sub for x
+\end{lstlisting}
+2. Explain what function on natural numbers
+\begin{lstlisting}
+  (\m. \n. m n)
+\end{lstlisting}
+implements:
+
+First we need to discuss what church numerals are. In lambda calculus, 
+natural numbers are represented as functions because the only two things
+that exist in lambda calculus are functions and variables. A church numeral (n)
+takes two arguments, a function (f) and a value (x), and applies f to x n times.
+
+In this question, m and n are church numerals. The expression takes two church 
+numerals, m and n, as input and returns m n. So overall, this function takes two church
+numerals, and applies the first church numeral (function) to the second church numeral
+(argument), applying the function to the argument.
+\subsubsection*{Comments and Questions}
+When thinking about church numerals, it adds another layer to lambda calculus that
+I didn't really remember needed to be represented. It challenges our understanding of 
+the difference between computation and representation in a system that is only able to 
+use variables and functions for operations. So, my question for this week is :
+In what ways do church encodings in lambda calculus illustrate the relationship between 
+data representation and function application, and how might this influence our understanding
+of computational efficiency and expressiveness in modern programming languages?
 \subsection{\ldots}
 
 \ldots
