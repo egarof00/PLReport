@@ -635,14 +635,16 @@ For homework, we had to practice capture avoiding substitution. We were tasked w
 \end{lstlisting}
 Here is my step by step solution to this problem, all using beta reduction:
 \begin{lstlisting}
-  ((\m. \n. m n) (\f. \x. f (f x))) (\f. \x. f (f (f x))) -> left-most application
-  (\n. (\f. \x. f (f x)) n) (\f. \x. f (f (f x))) -> left-most application
-  (\f. \x. f (f x)) (\f. \x. f (f (f x))) -> left-most application
-  \x. (\f. \x. f (f (f x))) ((\f. \x. f (f (f x))) x)) -> left-most application
-  \x. (\f. \x. f (f (f x))) (\x. x (x (x x)))) -> right-most application
-  \x. (\f. \x. f (f (f x))) ((x (x x))) -> right-most application
-  \f. \x. f (f (f ((x (x x)))) -> right-most application
-  \x. (f (f ((x (x x))) -> most reduced form because there is no value given to sub for x
+  ((\m. \n. m n) (\f. \x. f (f x))) (\f. \x. f (f (f x))) -> left-most beta reduction
+  (\n. (\f. \x. f (f x)) n) (\f. \x. f (f (f x))) -> left-most beta reduction
+  (\f. \x. f (f x)) (\f. \x. f (f (f x))) -> left-most beta reduction
+  \x. (\f. \x. f (f (f x))) ((\f. \x. f (f (f x))) x) -> right-most beta reduction
+  \x. (\f. \x1. f (f (f x1))) (\f. \x2. f (f (f x2))x) -> alpha reduction of x
+  \x. (\f. \x1. f (f (f x1))) (\x2. x (x (x x2))x) -> right-most beta reduction
+  \x. (\x1. (\x2. x (x (x x2))) ((\x2. x (x (x x2))x) ((\x2. x (x (x x2))x) x1))) -> right-most beta reduction
+  \x. (\x1. (\x2. x (x (x x2))) ((\x2. x (x (x x2))x) ((x (x (x x1)))))) -> right-most beta reduction
+  \x. (\x1. (\x2. x (x (x x2))) ((x(x(x(x(x(x x1)))))))) -> right-most beta reduction
+  \x. (\x1. (x(x(x(x(x(x(x(x(x x1)))))))))) -> right-most beta reduction
 \end{lstlisting}
 2. Explain what function on natural numbers
 \begin{lstlisting}
