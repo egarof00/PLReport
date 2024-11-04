@@ -513,9 +513,6 @@ this type of parsing is actually used, and how it could possibly be flexible in 
 Does relying on rightmost derivation limit it's effeciency to very particular problems?
 Or is their a way to make it more flexible so that it can handle left-recursive 
 grammars just as well?
-
-\subsection{\ldots}
-
 \subsection{Week 6: Higher Order Functions}
 \subsubsection*{Notes}
 The topics of this week mostly included currying and lambda calculus. In class, we discussed that currying is like
@@ -669,32 +666,119 @@ use variables and functions for operations. So, my question for this week is :
 In what ways do church encodings in lambda calculus illustrate the relationship between 
 data representation and function application, and how might this influence our understanding
 of computational efficiency and expressiveness in modern programming languages?
-\subsection{\ldots}
-
-
-% THIS WHERE I NEED OT FILL IN FOR 8 AND 9 ////////////////////////////////////////////////////////
-\subsection{Week 8}
+\subsection{Week 8 and 9}
 \subsubsection*{Notes}
-
-
+The focus of week 8 and 9 was on programming assignment 3. The goal was to understand 
+how capture avoiding substitution can be implemented into a python script lambda calculus calculator.
+It also gave us the opportunity to learn or refresh on how to use the vscode python debugger with 
+breakpoints and our own traces to determine where bugs exist within a script.
 \subsubsection*{Homework}
-
+As we completed assignment 3, we were told to answer the guiding questions below to help assist us in
+understanding the lambda calculus calculator:
+\begin{enumerate}
+  \item Add new test cases to each of the functions.
+  \item Explain why abcd reduces to (((a b) c) d) and why (a) reduces to a.
+    \begin{itemize}
+      \item The first expression is returned with parenthesis that demonstrate the "order of operations". This
+      program evaluates the expressions through leftmost reductions, so abcd is reduced to (((a b) c) d) showing
+      that (a b) is first evaluated, then the result is evaluated with c, and then with d. That is why providing the
+      program with abcd returns the corresponding answer. (a) reduces to a because there are no further simplifications
+      for the given expression.
+    \end{itemize}
+    \item How does capture avoiding substitution work? How is it implemented?
+    \begin{itemize}
+      \item Capture avoiding substitution changes the names of variables in an expression with
+      alpha substitutions in order to avoid changing nested variables of the same name that are not 
+      in the same scope. This is done by renaming variables of the current scope to Var(x), x 
+      being the count of substitutions. Doing this maintains proper reductions of the lambda 
+      calculus calculator.
+    \end{itemize}
+    \item Do you always get the expected result? Do all computations reduce to normal form?
+    \begin{itemize}
+      \item When testing the original program, you do not always get the expected result.
+      Any computation that requires rightmost substitution to be completely reduced is not returned 
+      with the proper value. 
+    \end{itemize}
+    \item What is the smallest lambda expression you can find that does not reduce to normal form?
+    \begin{lstlisting}
+      (\f. \x. f (f x)) (\x. x)
+      \end{lstlisting}
+    \item Use the python debugger to step through the interpreter (nothing to report for this question)
+    \item How does the interpreter evaluate
+    \begin{lstlisting}
+    ((\m.\n. m n) (\f.\x. f (f x))) (\f.\x. f (f (f x)))
+    \end{lstlisting}Write a new line for each substitution.
+    \begin{verbatim}
+    ((\m.\n. m n) (\f.\x. f (f x))) (\f.\x. f (f (f x)))
+    ((\Var1. (\f.\x. f (f x)) Var1) ) (\f.\x. f (f (f x)))
+    (\Var1.((\f.(\x.(f (f x)))) Var1))
+    ((\Var2.(\Var4.(Var2 (Var2 Var4)))) (\f.(\x.(f (f (f x))))))
+    (\Var5.((\f.(\x.(f (f (f x))))) ((\f.(\x.(f (f (f x))))) Var5)))
+    \end{verbatim}
+    \item Write out the trace in the format that we used for the towers of hanoi for the same
+    example as above.
+  \begin{verbatim}
+    12: eval (((\m.(\n.(m n))) (\f.(\x.(f (f x))))) (\f.(\x.(f x))))
+    39: eval ((\m.(\n.(m n))) (\f.(\x.(f (f x)))))
+        39: eval (\m.(\n.(m n)))
+        44: substitute ((\n.(m n)), ‘m’, (\f.(\x.(f (f x)))))
+            89: substitute (substitute((m n), ‘n’, ‘Var1’), ‘m’, (\f.(\x.(f (f x)))))
+                92: substitute (‘m’, ‘n’, ‘Var1’)
+                92: substitute (‘n’, ‘n’, ‘n’)
+                    92: sub substitute (‘m’, ‘m’, ‘m’)
+                    92: sub substitute (‘Var1’, ‘m’, (\f.(\x.(f (f x)))))
+        45: eval (\Var1.((\f.(\x.(f (f x)))) Var1))
+    44: substitute (((\f.(\x.(f (f x)))) Var1), ‘Var1’, (\f.(\x.(f (f (f x))))) )
+        92: substitute ((\f.(\x.(f (f x)))), ‘Var1’, (\f.(\x.(f (f (f x))))))
+        92: substitute (‘Var1’, ‘Var1’, ‘Var1’)
+            89: substitute (substitute((\x.(f (f x))), ‘f’ , ‘Var2’),
+            ‘Var1’, (\f.(\x.(f (f (f x))))))
+                89: substitute (substitute ((f (f x)), ‘x’, ‘Var3’), ‘f’, ‘Var2’)
+                    92: substitute (‘f’, ‘x’, ‘Var3’)
+                    92: substitute ((f x), ‘x’, ‘Var3’)
+                        92: substitute (‘f’, ‘x’, ‘Var3’)
+    92: substitute (‘x’, ‘x’, ‘Var3’)
+                            92: substitute (‘f’, ‘f’, ‘Var2’)
+                            92: substitute ((f Var3), ‘f’, ‘Var2’)
+                                92: substitute (‘f’, ‘f’, ‘Var2’)
+                                92: substitute (’Var3’, ‘f’, ‘Var2’)
+                                    89: substitute (substitute((Var2 (Var2 Var3)),
+                                    ‘Var3’, ‘Var4’), ‘Var1’, (\f.(\x.(f (f (f x))))))
+                                        92: substitute (‘Var2’, ‘Var3’, ‘Var4’)
+                                        92: substitute ((Var2 Var3), ‘Var3’, ‘Var4’)
+                                            92: substitute (‘Var2’, ‘Var3’, ‘Var4’)
+                                            92: substitute (‘Var3’, ‘Var3’, ‘Var4’)
+                                                92: substitute (‘Var2’, ‘Var1’,
+                                                (\f.(\x.(f (f (f x))))))
+                                                92: substitute ((Var2 Var4), ‘Var1’,
+                                                (\f.(\x.(f (f (f x))))))
+                                                    92: substitute (‘Var2’, ‘Var1’,
+                                                    (\f.(\x.(f (f (f x))))))
+                                                    92: substitute (‘Var4’, ‘Var1’,
+                                                    (\f.(\x.(f (f (f x))))))
+    45: eval ((\Var2.(\Var4.(Var2 (Var2 Var4)))) (\f.(\x.(f (f (f x))))))
+        39: eval (\Var2.(\Var4.(Var2 (Var2 Var4))))\
+        44: substitute ((\Var4.(Var2 (Var2 Var4))),’Var2’ , (\f.(\x.(f (f (f x))))))
+            89: substitute (substitute((Var2 (Var2 Var4)), ‘Var4’, ‘Var5’), ‘Var2’,
+            (\f.(\x.(f (f (f x))))))
+      92: substitute (‘Var2’, ‘Var4’, ‘Var5’)
+      92: substitute ((Var2 Var 4), ‘Var4’, ‘Var5’)
+          92: substitute (‘Var2’, ‘Var4’, ‘Var5')
+          92: substitute (‘Var2’, ‘Var4’, ‘Var5’)
+              92: substitute (‘Var2’, ‘Var2’, (\f.(\x.(f (f (f x))))))
+              92: substitute ((Var2 Var5), ‘Var2’, (\f.(\x.(f (f (f x))))))
+                  92: substitute (‘Var2’, ‘Var2’, (\f.(\x.(f (f (f x))))))
+                  92: substitute (‘Var5’, ‘Var2’, (\f.(\x.(f (f (f x))))))
+        45: eval (\Var5.((\f.(\x.(f (f (f x))))) ((\f.(\x.(f (f (f x))))) Var5)))
+  \end{verbatim}
+     (we later realized that we did not have to keep a portion of this trace that we accidentally kept but we already went
+     through all of it so we decided we might as well leave it in the report.)
+\end{enumerate}
 \subsubsection*{Comments and Questions}
+Week 8 Question: What are the pros and cons of using the Python debugger tool through vscode 
+versus print statement debugging?
 
-\subsection{\ldots}
-
-
-
-% WEEK 9 //////////////////////////////////////////////////////////
-\subsection{Week 9}
-\subsubsection*{Notes}
-
-
-\subsubsection*{Homework}
-
-\subsubsection*{Comments and Questions}
-
-\subsection{\ldots}
+Week 9 Question: How does the design of Python as a language affect the debugging process of Python scripts?
 
 \subsection{Week 10}
 \subsubsection*{Notes}
