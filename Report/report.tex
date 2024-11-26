@@ -881,6 +881,143 @@ fact 3 = 6
 My question for the week is on invariants. What challenges may arise in a programming
 language if it does not have any invariants?
 \subsection{\ldots}
+\subsection{Week 13}
+\subsubsection*{Notes}
+This week focused on a comparison of programming languages. We observed languages like 
+LambdaF, OCaml, Python, JavaScript, Rust, Scala, Lean, Racket, and more to look at the 
+general similarities and differences in creating a programming language. With this information,
+we were able to see how certain languages may perform better in different scenarios. 
+
+We also
+discussed the story of "What the Tortoise Said to Achilles". This story is inspired by 
+Zeno's Paradox. It is used to challenge ideas in programming languages related to recursion and 
+infinite loops. 
+
+The last thing we covered was the black and white hat problem. This was a thought exercise where we were 
+given a group of 10 people placed in height order assigned a random hat color that is either white or black. 
+Starting at the tallest person in the back of the group (where this individual is able to see everyone in 
+front of them), the participants must say what the color of their hat is, and get through the experiment 
+with at least 9 correct answers to pass. We were able to create a rule system that the participants would 
+follow, tracking the number of remaining white hats and whether that number is even or odd to get at least 
+9 correct responses. 
+\subsubsection*{Homework}
+Rewriting exercises 5 and 5b:
+
+Consider the rewrite rules:
+\begin{verbatim}
+  ab -> ba
+  ba -> ab
+  aa ->
+  b ->
+\end{verbatim}
+Reduce some example strings:
+\begin{verbatim}
+  abba
+  baba 
+  abba 
+  baba 
+  baab 
+  bb 
+  b 
+  _
+\end{verbatim}
+\begin{verbatim}
+  bababa
+  baabba 
+  bbba 
+  bba 
+  ba 
+  a 
+\end{verbatim}
+
+Why is this ARS not terminating?
+As you can see in the first example, there is the possibility 
+of getting stuck in a loop when switching between the ab -> ba 
+and ba -> ab rules. Because of the ability to infinitely loop, this
+ARS is not terminating. 
+
+How many equivalence classes does it have? Can you describe them in a nice way? What are the normal forms?
+Because any instance of b can be removed, the equivalence classes 
+depend on the number of a's that are in the string. These strings will 
+reduce to either nothing, if there is an even number of a's in the string, or will have a single a 
+left in the string if the total number of a's is odd. Any strings with an odd number of a's belong 
+in the same equivalence class and any string with an even number of a's belong in the 
+same equivalence class. 
+
+Can you change the rules so that the ARS becomes terminating without 
+changing the equivalence classes?
+The problem rules are the combination of ab -> ba and ba -> ab. We would 
+need to remove the possibility of this infinite loop if we wanted to allow 
+the ARS to become terminating. The new rules could be:
+\begin{verbatim}
+  ab -> ba
+  ba -> ab
+  aa -> 
+  b -> 
+  ab ->
+  ba ->
+\end{verbatim}
+This would not perform exactly as before though, because bababa would reduce 
+to the empty string rather than to a. But the ARS will then have normal forms based off
+of the number of a's in the string similarly to before. Any string with the same 
+number of a's will reduce to the same normal form.
+
+Write down a question about strings that can be answered using the ARS:
+What would be our invariant for this ARS?
+In this situation, our invariant would be the number of a's. Depending on their count, the
+ARS will always either reduce to the empty string, or to "a".
+
+Consider the rewrite rules:
+\begin{verbatim}
+  ab -> ba
+  ba -> ab
+  aa -> a
+  b ->
+\end{verbatim}
+Reduce some example strings:
+\begin{verbatim}
+  abba
+  aba 
+  aa 
+  a
+\end{verbatim}
+\begin{verbatim}
+  bababa
+  baabba 
+  babba 
+  baba 
+  baab 
+  bb 
+  b 
+  _
+\end{verbatim}
+Why is the ARS not terminating?
+This ARS actually is terminating, because every string will eventually 
+reach a normal form where no more reductions are possible. 
+
+How many equivalence classes?
+Similar to the previous exercise, all b's are removed, so the equivalence 
+classes and normal forms depend on the number of a's. Any sequence of a's at all will 
+end up reducing to the string "a". If a string just has b's, it will reduce to the 
+empty string. So the two equivalence classes are strings that contain any number of 
+a's, and strings without a's. Reducing the the two normal forms "a" and "".
+
+Can you change the rules so that the ARS becomes terminating with 
+the same equivalence classes?
+The ARS is already terminating.
+
+Write down a question about strings that can be answered by the ARS:
+What is the benefit of having an ARS that reduces to "a" instead of the empty 
+string in as many scenarios (like the exercise previous)? 
+\subsubsection*{Comments and Questions}
+My question for this week relates to the black and white hat exercise that we 
+went over in class. In situations like this, how are you able to tell that there is a 
+possible strategy/solution? I feel like we discussed it for an entire hour without having a clear
+solution until we wrapped it up at the end, so how are you able to know that you will actually 
+arrive at a solution? Like if you changed the order so that the last person to go could see 
+everyone's hats and the first person could see none, is there still a possible solution? How 
+are you able to realistically deduce if there even will be? 
+\subsection{\ldots}
 \ldots
 
 % \section{Lessons from the Assignments}
