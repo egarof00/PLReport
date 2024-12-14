@@ -924,6 +924,7 @@ follow, tracking the number of remaining white hats and whether that number is e
 \subsubsection*{Homework}
 Rewriting exercises 5 and 5b:
 
+\subsection{5a}
 Consider the rewrite rules:
 \begin{verbatim}
   ab -> ba
@@ -972,7 +973,6 @@ need to remove the possibility of this infinite loop if we wanted to allow
 the ARS to become terminating. The new rules could be:
 \begin{verbatim}
   ab -> ba
-  ba -> ab
   aa -> 
   b -> 
   ab ->
@@ -987,7 +987,10 @@ Write down a question about strings that can be answered using the ARS:
 What would be our invariant for this ARS?
 In this situation, our invariant would be the number of a's. Depending on their count, the
 ARS will always either reduce to the empty string, or to "a".
+If the number of a's is odd, it will reduce to "a". if it is even,
+it reduces to the empty string.
 
+\subsection{5b}
 Consider the rewrite rules:
 \begin{verbatim}
   ab -> ba
