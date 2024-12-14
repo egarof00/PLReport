@@ -74,15 +74,39 @@
 \maketitle
 
 \begin{abstract}
-This document outlines what has been learned week by week through this class. For now, it only contains the information learned for week one.
+This report summarizes the key concepts and skills acquired throughout our Programming Languages course, which focused on understanding 
+the inner workings of programming languages and designing our own. The course covered a range of topics, including lambda calculus, 
+abstract syntax trees, context-free grammars, and term-rewriting systems, as well as the use of theorem provers and parser generators. 
+We explored the semantics of functional and imperative languages, the role of mathematical concepts in language design, and how these 
+ideas impact practical software development. Through hands-on projects, we gained experience in building interpreters, parsers, and 
+reasoning about program correctness. This report provides a week-by-week reflection on the course, demonstrating how theoretical 
+concepts in programming languages shape real-world engineering practice and enhance problem-solving skills in software development.
 \end{abstract}
 
 \setcounter{tocdepth}{3}
 \tableofcontents
 
 \section{Introduction}\label{intro}
-Welcome to my class report! As the class progresses, I will add my learning
-from each week. For now, it only has week one. 
+This document reflects on the weekly learning journey throughout the Programming Languages course. The primary goal of the course was 
+to explore the inner workings of programming languages, understand their foundations, and learn the processes involved in designing and 
+implementing them. Rather than focusing on specific programming languages, we were tasked with building one, providing hands-on 
+experience with the key concepts that underpin modern language design.
+
+Over the course of the semester, we delved into both theoretical and practical aspects of programming languages. This included studying
+the underlying mathematical principles that shape languages, such as lambda calculus, term-rewriting systems, and operational semantics, 
+while also learning how to implement these concepts in real-world tools like interpreters, parsers, and theorem provers. Key learning 
+objectives involved understanding the structure and behavior of functional and imperative programming languages, as well as mastering the 
+techniques required to create parsers using context-free grammars and parser generators like BNFC.
+
+Additionally, we explored how mathematical concepts like abstract data types, proof systems, and the significance of invariants influence 
+language design and program correctness. The course also touched on advanced topics like theorem proving and dependent types, offering a 
+glimpse into the mathematical foundations of programming and their impact on both practical software development and theoretical computer science.
+
+This document provides a week-by-week breakdown of the course content, outlining the progression from foundational concepts to more advanced 
+topics, and reflecting on how these lessons have enhanced our understanding of programming languages and their real-world applications. 
+The goal is to highlight not only what we learned, but also how this knowledge can be applied in future programming projects, interviews, 
+and further studies in areas such as compiler construction. Ultimately, the course has equipped us with a deeper appreciation for the critical 
+role that mathematics and theory play in shaping the tools and languages we use every day in software engineering.
 \section{Week by Week}\label{homework}
 
 \subsection{Week 1}
@@ -851,8 +875,6 @@ For homework we had to compute fact 3, which I have done below:
 
 \begin{verbatim}
 let rec fact = \n. if n = 0 then 1 else n * fact (n - 1) in fact 3
-<def of let rec>
-let rec fact = \n. if n = 0 then 1 else n * fact (n - 1) in fact 3
 <def of let>
 fact 3 = (\n. if n = 0 then 1 else n * fact (n - 1)) 3
 <beta rule: substitute fix F>
@@ -880,7 +902,6 @@ fact 3 = 6
 \subsubsection*{Comments and Questions}
 My question for the week is on invariants. What challenges may arise in a programming
 language if it does not have any invariants?
-\subsection{\ldots}
 \subsection{Week 13}
 \subsubsection*{Notes}
 This week focused on a comparison of programming languages. We observed languages like 
@@ -1017,23 +1038,146 @@ solution until we wrapped it up at the end, so how are you able to know that you
 arrive at a solution? Like if you changed the order so that the last person to go could see 
 everyone's hats and the first person could see none, is there still a possible solution? How 
 are you able to realistically deduce if there even will be? 
-\subsection{\ldots}
-\ldots
+\section{Lessons from the Assignments}
+Throughout this course, I contributed significantly to the group assignments by focusing on various 
+aspects of the technical implementation, problem-solving, and application of theoretical knowledge. 
+The assignments provided opportunities to integrate both practical and theoretical skills.
+\subsection*{Assignment 1: Python Calculator}
+This was an individual assignment with the goal of being able to take complicated 
+expressions, such as "1+2*3+4*5*6", and returning the correct mathematical output. 
+The program needed to be able to evaluate arithmetic expressions, including addition,
+subtraction, multiplication, division, and exponentiation. The focus was ensuring that 
+all operations were performed in the correct order, including parenthesis. 
 
-% \section{Lessons from the Assignments}
+The first challenge was implementing a recursive evaluation mechanism. I designed a 
+function that would handle parsing using simple precedence rules, multiplication and 
+division had higher precedence than addition and subtraction. For example, to evaluate 
+3 + 5 * 2, the program would first evaluate 5 * 2 before adding 3, which is the 
+expected behavior according to standard operator precedence.
 
-% (Delete and Replace): Write three pages about your individual contributions to the project.
+Additionally, in the Parenthesis.py file I developed the error-handling mechanisms 
+to deal with incorrect syntax, like mismatched parentheses or invalid operators. 
+This was particularly important to ensure that users would receive meaningful 
+feedback instead of the program crashing.
 
-% On 3 pages you describe lessons you learned from the project. Be as technical and detailed as possible. Particularly valuable are \emph{interesting} examples where you connect concrete technical details with \emph{interesting} general observations or where the theory discussed in the lectures helped with the design or implementation of the project.
+The lessons on recursion in the course were directly applicable in this assignment. 
+The ability to break down complex expressions into simpler sub-expressions by 
+recursive calls made the implementation both efficient and elegant.
+\subsection*{Assignment 2: Python Calculator with Lark}
+Assignment 2 introduced a new layer of complexity by requiring the calculator to 
+parse and evaluate expressions based on a context-free grammar (CFG) defined using 
+Lark, a Python library. The task was to define the grammar for arithmetic expressions,
+including handling of precedence and associativity, and then implement the evaluation logic.
 
-% Write this section during the semester. This is approximately a quarter of apage per week and the material should come from the work you do anyway. Just keep your eyes open for interesting lessons.
+We began with the ambiguous context-free grammar:
+\begin{verbatim}
+exp -> exp '+' exp
+exp -> exp '*' exp
+exp -> exp '^' exp
+exp -> exp '-' exp
+exp -> '-' exp 
+exp -> 'log' exp 'base' exp
+exp -> '(' exp ')'
+exp -> number
+\end{verbatim}
+The grammar needed to properly reflect the precedence rules for arithmetic operations, where 
+exponentiation should be evaluated before multiplication and division, which in turn should 
+be evaluated before addition and subtraction.
 
-% Make sure that you use \LaTeX{} to structure your writing (eg by using subsections).
+The next step was to implement the logic for evaluating these parsed expressions. I built off of a 
+class that would recursively traverse the parse tree, evaluating each node based on its type. 
+The most interesting challenge in this assignment was ensuring the recursive evaluation respected 
+the precedence defined by the grammar. This was not just a matter of following simple rules but also 
+ensuring that the AST (abstract syntax tree) was processed in the correct order, which mirrored the 
+grammar structure.
 
-% \section{Conclusion}\label{conclusion}
+This assignment was a good application of the theoretical concepts from lectures, especially the 
+lessons on grammars, parsing, and abstract syntax trees. In particular, Lark’s automatic handling 
+of parsing allowed me to focus on applying these theoretical concepts in a practical way, saving 
+significant time compared to manually building a parser.
+\subsection*{Assignment 3: Lambda Calculus Interpreter}
+This assignment was a group project that is able to take in lambda calculus statements like 
+\begin{verbatim}(\x.x) a\end{verbatim} and return the correct result according to the rules of
+lambda calculus. Assignment 3 was a significant leap in complexity. Lambda calculus is a formal 
+system used to study computation, and our task was to build an interpreter capable of evaluating 
+lambda expressions, which consist of functions and applications.
 
-% (Delete and Replace): (approx 400 words) A critical reflection on the content of the course. Step back from the technical details. How does the course fit into the wider world of software engineering? What did you find most interesting or useful? What improvements would you suggest?
+The primary challenge was implementing beta-reduction, which is the core computation mechanism in lambda calculus. 
+The base interpreter program we were given was able to computate some beta-reductions, but had trouble 
+evaluating rightmost reductions. Beta-reduction involves replacing the formal parameter of a function with the 
+actual argument in the body of the function. I used recursion 
+to implement this reduction, applying it to both lambda abstractions and function applications.
 
+This recursive approach to reduction allowed me to handle nested functions and complex expressions efficiently. 
+The most valuable takeaway from this project was the practical application of lambda calculus theory, particularly 
+the concepts of alpha and beta reduction. By implementing these directly in Python, I was able to gain a deeper understanding 
+of how these operations model computation.
+\subsection*{Assignment 4: Expanding on Assignment 3}
+This assignment continued the group project by extending it to include operations
+for sequencing, constructing, and destructing lists. After having the established programs from before, 
+we were tasked with adding: 
+\begin{verbatim}
+prog.       exp -> exp ";;" exp
+hd.         exp -> "hd" exp
+tl.         exp -> "tl" exp 
+nil.        exp -> "#"
+cons.       exp -> exp ":" exp
+\end{verbatim}
+The general sequence of adding in each functionality was to 
+\begin{enumerate}
+  \item add rule to grammar
+  \item update interpreter.py (transformer, evaluate, substitute, linearize)
+  \item run tests
+  \item repeat
+\end{enumerate}
+My main contribution to this project was in the expansion of the interpreter’s 
+evaluation strategy and implementing the handling of variable environments and scoping.
+
+The key challenge here was ensuring that scoping rules were correctly implemented. Ensuring
+that variables defined inside functions or conditionals did not leak into other parts of the program.
+
+This assignment reinforced my understanding of how interpreters work and provided me with a deeper 
+appreciation for the complexity of language design, especially the need for managing environments and scope correctly.
+\subsection*{Overall Thoughts}
+The group assignments and projects provided a rich learning experience, allowing me to apply theoretical 
+concepts in a practical setting. From parsing and grammar design in Assignment 2 to the complexities of 
+lambda calculus and scoping in Assignment 3 and 4, each task required a deep understanding of both the theory and 
+implementation details. My contributions ranged from designing core data structures to implementing recursive evaluation 
+mechanisms, all of which were informed by the lectures and course materials. These assignments have significantly deepened 
+my understanding of programming languages and computation, preparing me for future challenges in software development and 
+language design.
+\section{Conclusion}\label{conclusion}
+This programming languages course provided a deep dive into both the theoretical foundations and practical applications 
+of language design and implementation. The topics covered—recursion, lambda calculus, abstract syntax trees (ASTs), context-free grammars (CFGs)
+, parsing, reduction strategies, invariants, and more. And all are integral to the broader field of software engineering, particularly in compiler design, 
+language development, and functional programming.
+
+The course emphasized key concepts that are fundamental to understanding how programming languages work under the hood. For example, recursion is not
+ just a theoretical concept but a critical mechanism for handling complex data structures and implementing language features like list processing or recursive
+function calls. Understanding how recursion works at the core of languages helped me appreciate the elegance and power it provides in both language design
+and software development.
+
+Lambda calculus, often referred to as the foundation of functional programming, was another highlight of the course. While the direct application of lambda 
+calculus might not be common in everyday software engineering tasks, it deeply influences the design of modern programming languages like Haskell, Scala, 
+and even Python (to a certain extent). The principles of lambda calculus inform the development of features such as first-class functions, closures, and 
+higher-order functions, all of which are key elements in contemporary programming paradigms.
+
+Abstract syntax trees and context-free grammars were especially useful in understanding how compilers parse and interpret code. The ability to map a program’s 
+source code to a tree structure allows compilers and interpreters to analyze and transform code efficiently. Parsing techniques and reduction strategies, like 
+beta-reduction in lambda calculus, provide the foundation for designing interpreters and compilers, which are ubiquitous in the software industry. The course also 
+touched on important language features such as variables, scopes, and environments, all of which are crucial for building robust, maintainable software.
+
+The most interesting aspect of the course was how it tied theory directly to practical tools. Implementing interpreters and parsers in Python allowed me to 
+experience firsthand how abstract concepts like grammars and reduction strategies are realized in code. This hands-on experience is invaluable for anyone 
+interested in building compilers or working with domain-specific languages.
+
+My favorite classes were definitely the ones where we attacked puzzles like the chess board puzzle or the white and black hats puzzle. 
+Having a unique situation to apply the theories that we are learning about in class to in an interactive environment kept me
+interested and allowed me to gain a great understanding of the topics we had already been covering. 
+
+In conclusion, the course offered a rigorous, intellectually rewarding exploration of programming languages. It strengthened my understanding of language 
+theory and equipped me with the tools necessary to tackle complex software engineering problems. It also highlighted the importance of both theory and practical 
+implementation, an essential aspect of building high-quality, maintainable software.
 % \begin{thebibliography}{99}
 % \bibitem[BLA]{bla} Author, \href{https://en.wikipedia.org/wiki/LaTeX}{Title}, Publisher, Year.
 % \end{thebibliography}
